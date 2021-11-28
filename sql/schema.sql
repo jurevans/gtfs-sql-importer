@@ -187,10 +187,12 @@ CREATE TABLE routes (
 );
 
 CREATE TABLE calendar_dates (
+  calendar_dates_id uuid DEFAULT uuid_generate_v4 (),
   feed_index int not null,
   service_id text,
   date date not null,
-  exception_type int REFERENCES exception_types(exception_type) --,
+  exception_type int REFERENCES exception_types(exception_type),
+  CONSTRAINT calendar_dates_pkey PRIMARY KEY (calendar_dates_id)
   -- CONSTRAINT calendar_fkey FOREIGN KEY (feed_index, service_id)
     -- REFERENCES calendar (feed_index, service_id)
 );
@@ -220,6 +222,7 @@ CREATE TABLE fare_attributes (
 );
 
 CREATE TABLE fare_rules (
+  fare_rules_id uuid DEFAULT uuid_generate_v4 (),
   feed_index int not null,
   fare_id text,
   route_id text,
@@ -234,6 +237,7 @@ CREATE TABLE fare_rules (
   -- REFERENCES fare_attributes (feed_index, fare_id),
   -- CONSTRAINT fare_rules_route_id_fkey FOREIGN KEY (feed_index, route_id)
   -- REFERENCES routes (feed_index, route_id),
+  CONSTRAINT fare_rules_pkey PRIMARY KEY (fare_rules_id),
   CONSTRAINT fare_rules_service_feed_fkey FOREIGN KEY (feed_index)
     REFERENCES feed_info (feed_index) ON DELETE CASCADE
 );
